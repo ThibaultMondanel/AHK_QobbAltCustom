@@ -16,8 +16,57 @@ SetWorkingDir %A_ScriptDir%  ;
 SetTitleMatchMode 2
 SendMode Input
 
-;Set SysTray icon
-Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon.ico
+;-----------------------------------------------------------------------------
+;-----------------------------------------------------------------------------
+; Change TrayIcon depending on the State
+Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Grey.ico,,1
+; Call WM_COMMAND() whenever the WM_COMMAND (0x111) message is received.
+OnMessage(0x111, "WM_COMMAND")
+
+WM_COMMAND(wParam, lParam)
+{
+	static IsPaused, IsSuspended
+	Critical
+	SetFormat, Integer, D ; to be sure (since if..in compares alphabetically)
+	id := wParam & 0xFFFF
+	if id in 65305,65404,65306,65403
+	{	; "Suspend Hotkeys" or "Pause Script"
+		if id in 65306,65403  ; pause
+			IsPaused := ! IsPaused
+		else  ; at this point, A_IsSuspended has not yet been toggled.
+			IsSuspended := ! A_IsSuspended
+
+		; INSERT CODE HERE to set icon based on IsPaused and/or IsSuspended
+		if (IsSuspended)
+		{
+			Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Yellow.ico,,1
+			TrayTip,,Suspended
+		}
+		else if(IsPaused)
+		{
+			Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Red.ico,,1
+			TrayTip,,Paused
+		}
+		else
+		{
+			Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Grey.ico,,1
+			TrayTip,,Normal
+		}
+	}
+}
+ 
+; -------------------------------
+; Disable this $@#&!% CapsLock and NumLock
+SetCapsLockState, Off
+SetCapsLockState, AlwaysOff
+SetNumLockState, On
+SetNumLockState, AlwaysOn
+SetScrollLockState, Off
+SetScrollLockState, AlwaysOff
+
+; -------------------------------
+; Display a TrayTip at Start
+TrayTip,,"AHK_QobbAltCustom: Hello!", 3, 16
 
 ; --------------------------------------------------------------
 ; NOTES  
@@ -29,18 +78,14 @@ Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon.ico
 ; $ = On release
 ; ~ = Keeps native function of the key
 ; < > = Specify Left/Right key
- 
-; -------------------------------
-; Disable this $@#&!% CapsLock and NumLock
-SetCapsLockState, Off
-SetCapsLockState, AlwaysOff
-SetNumLockState, On
-SetNumLockState, AlwaysOn
-SetScrollLockState, Off
-SetScrollLockState, AlwaysOff
 
-TrayTip AHK_QobbAltCustom, Hello!, 3, 16 ; Display a TrayTip
-
+;  _   _       _   _                  
+; | | | | ___ | |_| | _____ _   _ ___ 
+; | |_| |/ _ \| __| |/ / _ \ | | / __|
+; |  _  | (_) | |_|   <  __/ |_| \__ \
+; |_| |_|\___/ \__|_|\_\___|\__, |___/
+;                           |___/     
+						   
 ;=======================================
 ;========  Custom App Launchers ========
 ;=======================================

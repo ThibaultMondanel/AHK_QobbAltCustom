@@ -1,3 +1,10 @@
+;   ___             _   _               _    _ _                      
+;  | __|  _ _ _  __| |_(_)___ _ _  ___ | |  (_) |__ _ _ __ _ _ _ _  _ 
+;  | _| || | ' \/ _|  _| / _ \ ' \(_-< | |__| | '_ \ '_/ _` | '_| || |
+;  |_| \_,_|_||_\__|\__|_\___/_||_/__/ |____|_|_.__/_| \__,_|_|  \_, |
+;                                                                |__/ 
+
+
 ; All my custom functions
 
 
@@ -12,16 +19,34 @@ ReloadScript()
 
 RunChrome()
 {
-	if WinExist("ahk_class Chrome_WidgetWin_1", ,"Floating for YouTube™") ; Except Floating for YouTube™
+	FFY:="Floating for YouTube" . Chr(0x2122) ;
+	if WinExist("ahk_class Chrome_WidgetWin_1") ; Except Floating for YouTube™
 	{
 		WinActivate
-		Return
+		WinGetTitle, Title, A
+		IfEqual, Title, %FFY% ; Title == "Floating for YouTube™"
+		{
+			WinGet, WinClassCount, Count, ahk_class Chrome_WidgetWin_1
+			If WinClassCount = 1
+				Return
+			Else
+			{
+				WinSet, Bottom,, A
+				WinActivate, ahk_class Chrome_WidgetWin_1
+				Return ;
+			}
+		}
+		else
+		{
+			WinActivate
+			Return 
+		}
 	}
 	else
 	{
 		Run, chrome.exe
 		WinActivate	;
-		MsgBox, Yo
+		TrayTip,,No Chrome instance found
 	}
 	Return
 }
