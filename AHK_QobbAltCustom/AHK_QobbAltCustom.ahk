@@ -19,7 +19,11 @@ SendMode Input
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ; Change TrayIcon depending on the State
-Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Grey.ico,,1
+iconNormal := "AHK_QobbAltCustom_TrayIcon_Grey.ico"
+iconSuspended := "AHK_QobbAltCustom_TrayIcon_Yellow.ico"
+iconPaused := "AHK_QobbAltCustom_TrayIcon_Red.ico"
+
+Menu, Tray, Icon,AHK_QobbAltCustom_TrayIcon_Grey.ico ,,1
 ; Call WM_COMMAND() whenever the WM_COMMAND (0x111) message is received.
 OnMessage(0x111, "WM_COMMAND")
 
@@ -36,22 +40,13 @@ WM_COMMAND(wParam, lParam)
 		else  ; at this point, A_IsSuspended has not yet been toggled.
 			IsSuspended := ! A_IsSuspended
 
-		; INSERT CODE HERE to set icon based on IsPaused and/or IsSuspended
+		; Icon switch
 		if (IsSuspended)
-		{
-			Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Yellow.ico,,1
-			TrayTip,,Suspended
-		}
+			Menu, Tray, Icon,AHK_QobbAltCustom_TrayIcon_Yellow.ico,,1
 		else if(IsPaused)
-		{
-			Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Red.ico,,1
-			TrayTip,,Paused
-		}
+			Menu, Tray, Icon,AHK_QobbAltCustom_TrayIcon_Red.ico,,1
 		else
-		{
-			Menu, Tray, Icon, AHK_QobbAltCustom_TrayIcon_Grey.ico,,1
-			TrayTip,,Normal
-		}
+			Menu, Tray, Icon,AHK_QobbAltCustom_TrayIcon_Grey.ico,,1
 	}
 }
  
@@ -184,6 +179,42 @@ insert::RunChromeNewTab()
 F1::Send, {Delete} ;
 
 ; -------------------------------
+; Custom accents inputs
+!a:: ;Send à
+{
+	ControlGetFocus, OutputVar, A
+	if !ErrorLevel
+		Send,{ASC 133}
+	Return
+}
+
+!/:: ;Send é
+!e:: 
+{
+	ControlGetFocus, OutputVar, A
+	if !ErrorLevel
+		Send,{ASC 130}
+	Return
+}
+
+!':: ;Send è
+!+e::
+{
+	ControlGetFocus, OutputVar, A
+	if !ErrorLevel
+		Send,{ASC 138}
+	Return
+}
+
+!u:: ;Send ù
+{
+	ControlGetFocus, OutputVar, A
+	if !ErrorLevel
+		Send,{ASC 151}
+	Return
+}
+
+; -------------------------------
 ; Use Shift+Num- as underscore
 +NumpadSub::Send, _ ; 
 
@@ -224,6 +255,7 @@ RControl & Enter::ShiftAltTab  ; Without even having to release right-control, p
 ; Activate the following script only in Unreal Engine 4
 #IfWinActive, ahk_class UnrealWindow ;
 RWin:: MouseClick, right ; 	
+~MButton::Send, {Escape};
 #IfWinActive
 
 ;=======================================
@@ -233,7 +265,7 @@ RWin:: MouseClick, right ;
 #IfWinActive, ahk_class Notepad++ ;
 ; -------------------------------
 ; Reload this script
-+F5::ReloadScript()
+F5::ReloadScript()
 #IfWinActive
 
 ;=======================================
