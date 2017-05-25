@@ -121,8 +121,8 @@ NumpadSub::RunStickyNotes()
 PrintScreen::RunUE4Editor()
 
 ; -------------------------------
-; Run Pandion
-Pause::Run C:\Program Files (x86)\Pandion\Application\Pandion.exe ;
+;Run Deadline Monitor
+Numpad7::RunDeadlineMonitor()
 
 ; -------------------------------
 ; Toggle Always On Top
@@ -130,7 +130,7 @@ Pause::Run C:\Program Files (x86)\Pandion\Application\Pandion.exe ;
 
 ; -------------------------------
 g::Send, thibault.stones@gmail.com ;
-
+d::Send, tmondanel@digitaldimension.com ;
 ; -------------------------------
 ; Cycle TextConvert
 ;t::TextConvertCycle()
@@ -141,13 +141,8 @@ g::Send, thibault.stones@gmail.com ;
 ;###################################################################
 
 ; -------------------------------
-; Run Outlook
-ScrollLock::RunOutlook()
-
-; -------------------------------
-; Run Pandion
-+Pause::Run C:\Program Files (x86)\Pandion\Application\Pandion.exe ;
-Pause::WinActivate, ahk_class Pandion Window ;
+; Run WinTeams
+ScrollLock::RunWinTeams()
 
 ; -------------------------------
 ; Run Chrome
@@ -179,38 +174,41 @@ insert::RunChromeNewTab()
 F1::Send, {Delete} ;
 
 ; -------------------------------
+; Run SnippingTool
+PrintScreen::Run C:\Windows\system32\SnippingTool.exe ;
+
+; -------------------------------
 ; Custom accents inputs
 !a:: ;Send à
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel
-		Send,{ASC 133}
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	Send,{ASC 133}
 	Return
 }
 
-!/:: ;Send é
-!e:: 
+
+!e:: ;Send é
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel
-		Send,{ASC 130}
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	Send,{ASC 130}
 	Return
 }
 
-!':: ;Send è
-!+e::
++!e:: ;Send è
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel
-		Send,{ASC 138}
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138}
 	Return
 }
 
 !u:: ;Send ù
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel
-		Send,{ASC 151}
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	Send,{ASC 151}
 	Return
 }
 
@@ -220,12 +218,12 @@ F1::Send, {Delete} ;
 
 ; -------------------------------
 ; Use Shift+NumEnter as =
-+NumpadEnter::Send, = ; 
+;+NumpadEnter::Send, = ; 
 
 ; -------------------------------
 ; Right hand Alt-Tab
-RControl & RShift::AltTab  ; Hold down right-control then press right-shift repeatedly to move forward.
-RControl & Enter::ShiftAltTab  ; Without even having to release right-control, press Enter to reverse direction.
+;RControl & RShift::AltTab  ; Hold down right-control then press right-shift repeatedly to move forward.
+;RControl & Enter::ShiftAltTab  ; Without even having to release right-control, press Enter to reverse direction.
 
 ;=======================================
 ;============= GoogleChrome ============
@@ -255,7 +253,7 @@ RControl & Enter::ShiftAltTab  ; Without even having to release right-control, p
 ; Activate the following script only in Unreal Engine 4
 #IfWinActive, ahk_class UnrealWindow ;
 RWin:: MouseClick, right ; 	
-~MButton::Send, {Escape};
+~MButton Up::Send, {Escape}
 #IfWinActive
 
 ;=======================================
