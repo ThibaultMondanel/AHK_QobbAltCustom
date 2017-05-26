@@ -137,16 +137,33 @@ d::Send, tmondanel@digitaldimension.com ;
 
 #If
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+;########################## NUM LOCK ###############################
 ;###################################################################
 ;###################################################################
+;################## ---- CAPS LOCK Layer ---- ######################
+;vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+CapsLock::
+	KeyWait, CapsLock
+		
+#If, GetKeyState("CapsLock", "P")
+Return
 
+a::RunChrome()
+q::RunWinTeams()
+z::RunP4V()
+s::RunUE4Editor()
+
+#If
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+;######################### CAPS LOCK ###############################
+;###################################################################
 ; -------------------------------
 ; Run WinTeams
 ScrollLock::RunWinTeams()
 
 ; -------------------------------
 ; Run Chrome
-CapsLock::RunChrome()
+;CapsLock::RunChrome()
 
 ; -------------------------------
 ; Chrome: open a new tab in search mode
@@ -163,7 +180,8 @@ insert::RunChromeNewTab()
 
 ; -------------------------------
 ; Chrome/Google: Search current text selection on Google in a new tab.
-!^+c::GoogleSearch()
+!^+c::
+#g::GoogleSearch()
 
 ; -------------------------------
 ; Windows: Open a new window with selected path.
@@ -285,5 +303,9 @@ F5::ReloadScript()
 #IfWinActive, ahk_class CabinetWClass
 ; Press middle mouse button to move up a folder in Explorer
 ~MButton::Send !{Up} 
+
+; Page up/down with mouseWheel
++WheelUp::Send, {Pgup} ;
++WheelDown::Send, {Pgdn} ;
 #IfWinActive
 return
