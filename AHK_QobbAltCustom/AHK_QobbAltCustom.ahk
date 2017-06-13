@@ -7,6 +7,17 @@
 ; ===================================================================================
 ; ===================================================================================
 
+; --------------------------------------------------------------
+; NOTES  
+; --------------------------------------------------------------
+; ! = ALT
+; ^ = CTRL
+; + = SHIFT
+; # = WIN
+; $ = On release
+; ~ = Keeps native function of the key
+; < > = Specify Left/Right key
+
 #NoEnv
 #InstallKeybdHook
 #SingleInstance force
@@ -18,7 +29,7 @@ SendMode Input
 
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
-; Change TrayIcon depending on the State
+; Changes TrayIcon depending on the State
 iconNormal := "AHK_QobbAltCustom_TrayIcon_Grey.ico"
 iconSuspended := "AHK_QobbAltCustom_TrayIcon_Yellow.ico"
 iconPaused := "AHK_QobbAltCustom_TrayIcon_Red.ico"
@@ -59,20 +70,7 @@ SetNumLockState, AlwaysOn
 SetScrollLockState, Off
 SetScrollLockState, AlwaysOff
 
-; -------------------------------
-; Display a TrayTip at Start
 TrayTip,,"AHK_QobbAltCustom: Hello!", 3, 16
-
-; --------------------------------------------------------------
-; NOTES  
-; --------------------------------------------------------------
-; ! = ALT
-; ^ = CTRL
-; + = SHIFT
-; # = WIN
-; $ = On release
-; ~ = Keeps native function of the key
-; < > = Specify Left/Right key
 
 ;  _   _       _   _                  
 ; | | | | ___ | |_| | _____ _   _ ___ 
@@ -94,35 +92,13 @@ NumLock::
 #If, GetKeyState("NumLock", "P")
 Return
 
-; PrintScreen	: Run Editor.bat
-; ScrollLock	: 
-; Pause			: Pandion Contacts
-; NumpadDiv		: Run P4V
-; PageUp		: AlwaysOnTop
-
 ; -------------------------------
-; Run P4V
-NumpadDiv::RunP4V()
-
-; -------------------------------
-; Run Chrome
-ScrollLock::RunChrome()
-
-; -------------------------------
-; Run NotePad++
-NumpadMult::RunNotePad()
-
-; -------------------------------
-; Run Sticky Notes
-NumpadSub::RunStickyNotes()
-
-; -------------------------------
-; Run Editor.bat
-PrintScreen::RunUE4Editor()
-
-; -------------------------------
-;Run Deadline Monitor
-Numpad7::RunDeadlineMonitor()
+NumpadDiv::RunP4V()				; Run P4V
+ScrollLock::RunChrome() 		; Run Chrome
+NumpadMult::RunNotePad() 		; Run NotePad++
+NumpadSub::RunStickyNotes() 	; Run Sticky Notes
+PrintScreen::RunUE4Editor() 	; Run Editor.bat
+Numpad7::RunDeadlineMonitor() 	; Run Deadline Monitor
 
 ; -------------------------------
 ; Toggle Always On Top
@@ -139,7 +115,6 @@ d::Send, tmondanel@digitaldimension.com ;
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ;########################## NUM LOCK ###############################
 ;###################################################################
-;###################################################################
 ;################## ---- CAPS LOCK Layer ---- ######################
 ;vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 CapsLock::
@@ -152,64 +127,43 @@ a::RunChrome()
 q::RunWinTeams()
 z::RunP4V()
 s::RunUE4Editor()
-
+g::TinyUrl()
 #If
 ;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ;######################### CAPS LOCK ###############################
 ;###################################################################
-; -------------------------------
-; Run WinTeams
-ScrollLock::RunWinTeams()
 
-; -------------------------------
-; Run Chrome
-;CapsLock::RunChrome()
-
-; -------------------------------
-; Chrome: open a new tab in search mode
-insert::RunChromeNewTab()
-
-; -------------------------------
-; Chrome/YouTube: open Youtube in a new tab.
-+insert::RunYoutube()
+ScrollLock::RunWinTeams() ; Run WinTeams
+Pause::RunOutlook() ; Run Outlook
+insert::RunChromeNewTab() ; Chrome: open a new tab in search mode
++insert::RunYoutube() ; Chrome/YouTube: open Youtube in a new tab.
 
 ;========================================
 ;==========  Custom shortcuts  ==========
 ;=============  System wide  ============
 ;========================================
 
-; -------------------------------
-; Chrome/Google: Search current text selection on Google in a new tab.
 !^+c::
-#g::GoogleSearch()
-
-; -------------------------------
-; Windows: Open a new window with selected path.
-!^+e::OpenWinExplorer()
-
-; -------------------------------
-; Use F1 as Delete
-F1::Send, {Delete} ;
-
-; -------------------------------
-; Run SnippingTool
-PrintScreen::Run C:\Windows\system32\SnippingTool.exe ;
+#g::OpenHighlighted() 	; Chrome/Google: Search current text selection on Google in a new tab.
+;#+e::OpenWinExplorer()	; Windows: Open a new window with selected path.
+F1::Send, {Delete} 		; Use F1 as Delete
++NumpadSub::Send, _ 	; Use Shift+Num- as underscore
+PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 
 ; -------------------------------
 ; Custom accents inputs
 !a:: ;Send à
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
 	Send,{ASC 133}
 	Return
 }
 
-
 !e:: ;Send é
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
 	Send,{ASC 130}
 	Return
 }
@@ -217,7 +171,7 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ;
 +!e:: ;Send è
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
 	Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138}
 	Return
 }
@@ -225,18 +179,30 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ;
 !u:: ;Send ù
 {
 	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") ;
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
 	Send,{ASC 151}
 	Return
 }
 
-; -------------------------------
-; Use Shift+Num- as underscore
-+NumpadSub::Send, _ ; 
+!c:: ;Send ç
+{
+	ControlGetFocus, OutputVar, A
+	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
+	Send,{ASC 0231}
+	Return
+}
 
-; -------------------------------
-; Use Shift+NumEnter as =
-;+NumpadEnter::Send, = ; 
+
+;---------------
+; #IfWinActive, WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
+; !a:: Send,{ASC 133} ;Send à
+; !e:: Send,{ASC 130}	;Send é
+; +!e:: Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138} ;Send è
+; !u:: Send,{ASC 151}		;Send ù
+; !c:: Send,{ASC 0231}	;Send ç
+; #IfWinActive
+
+
 
 ; -------------------------------
 ; Right hand Alt-Tab
@@ -271,7 +237,15 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ;
 ; Activate the following script only in Unreal Engine 4
 #IfWinActive, ahk_class UnrealWindow ;
 RWin:: MouseClick, right ; 	
-~MButton Up::Send, {Escape}
+~MButton Up::
+{
+	GetKeyState, state, XButton1
+	if state = D
+		Send, g ;
+	else
+		Send, {Escape}
+	Return
+}	
 #IfWinActive
 
 ;=======================================
@@ -294,12 +268,18 @@ F5::ReloadScript()
 #IfWinActive 
 
 ;=======================================
+;============== Photoshop ==============
+;=======================================
+; Activate the following script only in Photoshop
+#IfWinActive ahk_exe rv.exe ;
+; Clear Session shortcut
+XButton1::Send, {ctrl down}{shift down}n{ctrl up}{shift up} 
+#IfWinActive 
+
+;=======================================
 ;=========== Windows Explorer ==========
 ;=======================================
 ; Activate the following script only in Window Explorer
-;			GroupAdd, WinExplorer, ahk_class CabinetWClass
-;	tests	GroupAdd, WinExplorer, ahk_class #32770
-;			#IfWinActive ahk_group WinExplorer
 #IfWinActive, ahk_class CabinetWClass
 ; Press middle mouse button to move up a folder in Explorer
 ~MButton::Send !{Up} 
