@@ -27,6 +27,9 @@ SetWorkingDir %A_ScriptDir%  ;
 SetTitleMatchMode 2
 SendMode Input
 
+GroupAdd, GroupAccents, ahk_exe Teams.exe
+GroupAdd, GroupAccents, ahk_exe chrome.exe
+
 ;-----------------------------------------------------------------------------
 ;-----------------------------------------------------------------------------
 ; Changes TrayIcon depending on the State
@@ -150,59 +153,19 @@ F1::Send, {Delete} 		; Use F1 as Delete
 +NumpadSub::Send, _ 	; Use Shift+Num- as underscore
 PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 
+
 ; -------------------------------
 ; Custom accents inputs
-!a:: ;Send à
-{
-	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
-	Send,{ASC 133}
-	Return
-}
 
-!e:: ;Send é
-{
-	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
-	Send,{ASC 130}
-	Return
-}
-
-+!e:: ;Send è
-{
-	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
-	Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138}
-	Return
-}
-
-!u:: ;Send ù
-{
-	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
-	Send,{ASC 151}
-	Return
-}
-
-!c:: ;Send ç
-{
-	ControlGetFocus, OutputVar, A
-	if !ErrorLevel || WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
-	Send,{ASC 0231}
-	Return
-}
-
-
-;---------------
-; #IfWinActive, WinActive("ahk_exe Teams.exe") || WinActive("ahk_exe chrome.exe") ;
-; !a:: Send,{ASC 133} ;Send à
-; !e:: Send,{ASC 130}	;Send é
-; +!e:: Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138} ;Send è
-; !u:: Send,{ASC 151}		;Send ù
-; !c:: Send,{ASC 0231}	;Send ç
-; #IfWinActive
-
-
+;GroupAdd, GroupAccents, ahk_exe Teams.exe
+;GroupAdd, GroupAccents, ahk_exe chrome.exe
+#IfWinActive, ahk_group GroupAccents
+!a:: Send,{ASC 133} ;Send à
+!e:: Send,{ASC 130}	;Send é
++!e:: Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138} ;Send è
+!u:: Send,{ASC 151}	;Send ù
+!c:: Send,{ASC 0231};Send ç
+#IfWinActive
 
 ; -------------------------------
 ; Right hand Alt-Tab
