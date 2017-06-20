@@ -160,11 +160,11 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 ;GroupAdd, GroupAccents, ahk_exe Teams.exe
 ;GroupAdd, GroupAccents, ahk_exe chrome.exe
 #IfWinActive, ahk_group GroupAccents
-!a:: Send,{ASC 133} ;Send à
-!e:: Send,{ASC 130}	;Send é
-+!e:: Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138} ;Send è
-!u:: Send,{ASC 151}	;Send ù
-!c:: Send,{ASC 0231};Send ç
+!a::Send,{ASC 133} ;Send à
+!e::Send,{ASC 130}	;Send é
++!e::Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138} ;Send è
+!u::Send,{ASC 151}	;Send ù
+!c::Send,{ASC 0231};Send ç
 #IfWinActive
 
 ; -------------------------------
@@ -192,6 +192,12 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 ; Home/End with mouseWheel
 !+WheelUp::Send, {Home} ;
 !+WheelDown::Send, {End} ;
+
+; -------------------------------
+; Duplicate the current tab
+#d::DuplicateChromeTab()
+
+
 #IfWinActive
 
 ;=======================================

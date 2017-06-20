@@ -9,7 +9,8 @@
 ReloadScript()
 {
 	SplashTextOn,125,25,,Updating Script...
-	Sleep,400
+	Send,^s ; Save before reloading
+	Sleep,500
 	SplashTextOff
 	Reload
 	Return
@@ -168,6 +169,12 @@ RunChromeNewTab()
 	Return
 }
 
+DuplicateChromeTab()
+{
+	Send, +^{>} ; Need "Duplicate Tab Shortcut Key" Chrome extension and setup hotkey in settings
+	Return
+}
+
 RunYoutube()
 {
 	WinActivate, chrome.exe
@@ -176,11 +183,9 @@ RunYoutube()
 	Return
 }
 
-GoogleSearch()
+GoogleSearch() ; Deprecated
 {
 	Send, {ctrl down}c{ctrl up} ; More secure way to use Copy
-	
-	
 	WinActivate, chrome.exe
 	Sleep,150
 	Run, "http://www.google.com/search?q=%clipboard%"
