@@ -28,14 +28,14 @@ RunChrome()
 		{
 			While(ChromeTitle == FFY)
 			{
-				WinGet, WinClassCount, Count, ahk_class Chrome_WidgetWin_1
+				WinGet, WinClassCount, Count, ahk_exe chrome.exe
 				If WinClassCount = 1
 					Return
 				Else 
 				{
 					WinSet, Bottom,, A
-					WinActivate, ahk_class Chrome_WidgetWin_1
-					Return ;
+					WinActivate, ahk_exe chrome.exe
+					WinGetTitle, ChromeTitle, A
 				}
 			}	
 		}
@@ -192,6 +192,15 @@ GoogleSearch() ; Deprecated
 	Return
 }
 
+OpenGoogleTranslate()
+{
+	WinActivate, chrome.exe
+	Sleep, 200
+	Send, +^{<} ; Need "Duplicate Tab Shortcut Key" Chrome extension and setup hotkey in settings
+	Sleep, 200
+	Send, {ctrl down}v{ctrl up} ;
+	Return
+}
 
 OpenHighlighted()
 {
