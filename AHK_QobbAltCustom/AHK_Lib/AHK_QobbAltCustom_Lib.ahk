@@ -54,6 +54,13 @@ RunChrome()
 	Return
 }
 
+RunOutlook()
+{
+	RunChrome()
+	Send, +^{End} ; Need "Office365 Mail Checker" Chrome extension and setup hotkey in settings
+	Return
+}
+
 RunP4V()
 {
 	if WinExist("ahk_exe p4v.exe")
@@ -92,6 +99,19 @@ RunUE4Editor()
 	Return
 }
 
+RunRV()
+{
+	if WinExist("ahk_exe rv.exe")
+	{
+		WinActivate
+	}
+	else
+	{
+		Run, C:\Users\tmondanel\Desktop\DD_Tools\RV.lnk ;
+	}
+	Return
+}
+
 RunDeadlineMonitor()
 {
 	if WinExist("ahk_exe deadlinemonitor.exe")
@@ -104,20 +124,6 @@ RunDeadlineMonitor()
 	}
 	Return
 }
-
-RunOutlook()
-{
-	if WinExist("Mail - tmondanel@digitaldimension.com")
-	{
-		WinActivate
-	}
-	; else
-	; {
-		MsgBox doesn't exist MF ; Run, OUTLOOK.EXE ;
-	; }
-	Return
-}
-
 
 RunWinTeams()
 {
