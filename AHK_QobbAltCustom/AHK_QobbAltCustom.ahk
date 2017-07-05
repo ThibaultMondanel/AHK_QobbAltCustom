@@ -97,11 +97,12 @@ Return
 
 ; -------------------------------
 NumpadDiv::RunP4V()				; Run P4V
-ScrollLock::RunChrome() 		; Run Chrome
+;ScrollLock::RunChrome() 		; Run Chrome
 NumpadMult::RunNotePad() 		; Run NotePad++
 NumpadSub::RunStickyNotes() 	; Run Sticky Notes
 PrintScreen::RunUE4Editor() 	; Run Editor.bat
 Numpad7::RunDeadlineMonitor() 	; Run Deadline Monitor
+Numpad8::RunRV()				; Run RV
 
 ; -------------------------------
 ; Toggle Always On Top
@@ -110,6 +111,7 @@ Numpad7::RunDeadlineMonitor() 	; Run Deadline Monitor
 ; -------------------------------
 g::Send, thibault.stones@gmail.com ;
 d::Send, tmondanel@digitaldimension.com ;
+t::Send, contact@thibaultmondanel.com ;
 ; -------------------------------
 ; Cycle TextConvert
 ;t::TextConvertCycle()
@@ -139,7 +141,9 @@ g::TinyUrl()
 ScrollLock::RunWinTeams() ; Run WinTeams
 Pause::RunOutlook() ; Run Outlook
 insert::RunChromeNewTab() ; Chrome: open a new tab in search mode
-+insert::RunYoutube() ; Chrome/YouTube: open Youtube in a new tab.
+
++insert::
+#y::RunYoutube() ; Chrome/YouTube: open Youtube in a new tab.
 
 ;========================================
 ;==========  Custom shortcuts  ==========
@@ -148,11 +152,15 @@ insert::RunChromeNewTab() ; Chrome: open a new tab in search mode
 
 !^+c::
 #g::OpenHighlighted() 	; Chrome/Google: Search current text selection on Google in a new tab.
+#t::OpenGoogleTranslate()
 ;#+e::OpenWinExplorer()	; Windows: Open a new window with selected path.
 F1::Send, {Delete} 		; Use F1 as Delete
 +NumpadSub::Send, _ 	; Use Shift+Num- as underscore
-PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
+PrintScreen::RunChrome()
+;PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 
+#u::Send, Update ;
+;f::msgbox, Coucou Fausto c===8 ;
 
 ; -------------------------------
 ; Custom accents inputs
@@ -164,7 +172,7 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 !e::Send,{ASC 130}	;Send é
 +!e::Send,{AltDown}{Numpad1}{Numpad3}{Numpad8}{AltUp} ;{ASC 138} ;Send è
 !u::Send,{ASC 151}	;Send ù
-!c::Send,{ASC 0231};Send ç
+!c::Send,{ASC 0231} ;Send ç
 #IfWinActive
 
 ; -------------------------------
@@ -196,7 +204,6 @@ PrintScreen::Run C:\Windows\system32\SnippingTool.exe ; Run SnippingTool
 ; -------------------------------
 ; Duplicate the current tab
 #d::DuplicateChromeTab()
-
 
 #IfWinActive
 
